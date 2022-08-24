@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h1>Javascript based Search</h1>
+
+<table>
+    <tr>
+        <td>
+            <input id="txtSearch" type="text" name="txtSearch" value="" autocomplete="on" />
+            <input type="submit" value="Search" id="btnSearch" language="javascript" onclick="javascript:search(document.getElementById('txtSearch').value)" />
+
+        </td>
+    </tr>
+</table>
+
+<p>
+    <script language="JavaScript" type="text/javascript">
+
+        var item = new Array();
+
+        c = 0; item[c] = new Array("index", "", "Index Page", "index,main,start,home,front", "First page of website, gives all the informtion that you required, for which ypu are here............................");
+        c++; item[c] = new Array("homepage.html", "", "Home Page", "Home,home,homepage,Home Page, Home page,main", "Specifies the selection of viewing web-site in .net environment mode or in html mode");
+        c++; item[c] = new Array("about_us.aspx", "", "About Us", "about,author,contact,email,who", "Contact details and general information about the creator of the site and what the site is about.");
+        
+        page = "<html><head> <title>Searched Articles:</title> </head><body bgcolor='white' background='images/mysearch.bmp'><center><table width='79%' border='1' align='center' cellpadding='0' cellspacing='0' bordercolor='#E1E1E1'>";
+
+
+        function search(frm) {
+
+            win = window.open("", "_self", "menubar=no, resizable=yes,scrollbars=yes,location=no,directories=no,status=no");
+            win.document.write("<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>")
+            win.document.write(page, "<b><u>Your search Results in: </u></b>");
+
+
+            txt = frm.split(" ");//frm.srchval.value.split(" ");
+            fnd = new Array(); total = 0;
+            for (i = 0; i < item.length; i++) {
+                fnd[i] = 0; order = new Array(0, 4, 2, 3);
+                for (j = 0; j < order.length; j++)
+                    for (k = 0; k < txt.length; k++)
+                        if (item[i][order[j]].toLowerCase().indexOf(txt[k]) > -1 && txt[k] != "")
+                            fnd[i] += (j + 1);
+            }
+            for (i = 0; i < fnd.length; i++) {
+                n = 0; w = -1;
+                for (j = 0; j < fnd.length; j++)
+                    if (fnd[j] > n) { n = fnd[j]; w = j; };
+                if (w > -1) total += show(w, win, n);
+                fnd[w] = 0;
+            }
+
+
+            win.document.write("</table><br><hr color='blue'/>Total found: <font color='Red'>" + total + "</font>(%)<br></body></html>");
+            win.document.write("<hr color='blue'/>");
+
+
+            win.document.close();
+
+
+        }
+
+
+        function show(which, wind, num) {
+            link = item[which][1] + item[which][0];
+            line = "<tr><td><a href='" + link + "'>" + item[which][2] + "</a> Score: " + num + "<br>";
+            line += item[which][4] + "<br>" + link + "</td></tr>";
+            wind.document.write(line);
+
+            return 1;
+        }
+
+    </script>
+
+
+
+
+</p>

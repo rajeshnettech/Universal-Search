@@ -1,0 +1,42 @@
+﻿@model WebApp.Models.SearchModel
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mynavbar">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Home")" class="nav-link">
+                        <span class="glyphicon glyphicon-home"></span>
+                        Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("JsSearch", "Home")" class="nav-link">
+                        <span class="glyphicon glyphicon-home"></span>
+                        JS Search
+                    </a>
+                </li>
+            </ul>
+            @using (Html.BeginForm("_MenuBar", "Home", FormMethod.Post, new { id = "_MenuBar", @class = "d-flex" }))
+            {
+                <input class="form-control me-2" type="text" placeholder="Search" value="@Model.Keywords" name="Keywords">
+                <button class="btn btn-primary" type="submit">Search</button>
+
+                if (Model != null && Model.Result != null && Model.Result.Count > 0)
+                {
+                    foreach (var item in Model.Result)
+                    {
+                        <p>
+                            <h4>@item.PagePath</h4>
+                            <div>@item.Description <a href="@item.PagePath" target="_blank">read more...</a></div>
+                        </p>
+                    }
+                }
+            }
+        </div>
+    </div>
+</nav>
